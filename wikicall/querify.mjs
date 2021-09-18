@@ -1,7 +1,5 @@
 export const Meta = {
-
     purpose: "combining given URL with given params"
-
 }; export default function querify(URL = '', params = {}) {
 
     let query = '';

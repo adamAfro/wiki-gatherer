@@ -1,5 +1,4 @@
 export const Meta = {
-
     purpose: "wrapping custom behaviour over NPM module" + ' ' +
         "which provides fetching function like in browser's enviroment"
 }

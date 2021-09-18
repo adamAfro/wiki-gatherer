@@ -1,16 +1,14 @@
-import {
-    Gatherer, Scanners
-} from "./index.mjs"
+import * as Lib from "./index.mjs";
 
-let gatherer = new Gatherer("https://pl.wikipedia.org/w/api.php");
-let members = await gatherer.gather(3183659, Scanners.person);
+let gatherer = new Lib.types.Person("https://pl.wikipedia.org/w/api.php");
+
+let members = await gatherer.gather(1949616);
 
 import {
     writeFile as write,
     mkdir as make,
     rm as remove
 } from "fs/promises";
-
 
 let cataloging = remove("test-results", { recursive: true }).catch(error => {})
     .then(function () { make("test-results") }).catch(error => {});
@@ -25,5 +23,4 @@ let writing = cataloging.then(function() {
         else
             return;
     };
-
-}).then(() => console.log(members, `(${members.length}) -> ./test-results`));
+});

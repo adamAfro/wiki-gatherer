@@ -1,6 +1,6 @@
-import * as Lib from "./index.mjs";
+import Gatherer from "./index.mjs";
 
-let gatherer = new Lib.types.Person("https://pl.wikipedia.org/w/api.php");
+let gatherer = new Gatherer("https://pl.wikipedia.org/w/api.php");
 
 let members = await gatherer.gather(1949616);
 

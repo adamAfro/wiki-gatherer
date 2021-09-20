@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>wiki-gatherer-test-results</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="https://unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
+        <script type="text/javascript">
+            window.onload = async function() {
+
+                let container = document.getElementById('timeline');
+                let data = await fetch("lifetimes.json").then(res => res.json());
+                let items = new vis.DataSet(data);
+
+                let timeline = new vis.Timeline(container, items, {
+                    zoomMax: 157680000000000, zoomMin: 31536000,
+                    width: "100%", height: "100vh"
+                });
+            }
+        </script><style media="screen">
+            body { margin: 0; padding: 0; border: 0 }
+            .vis-item {
+                color: white; background-color: black; border: 0;
+            } .vis-item.vis-selected { color: black }
+
+            .vis-item.vis-point {}
+            .vis-item.vis-box { color: black; background-color: transparent }
+        </style>
+    </head>
+    <body>
+
+        <main id="timeline"></main>
+
+    </body>
+</html>

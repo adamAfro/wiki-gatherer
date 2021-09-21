@@ -6,8 +6,6 @@ export const Meta = {
         "gathering recurses through all offspring categories" + ' ' +
         "and replaces them with their content-pages" + ', ' +
         "then it fetches for their claims from WikiData.org",
-	analogy: "Apple tree has a lot of branches with lesser branches and fruits" + ' ' +
-		"gathering is taking only the fruits from all the branches",
     references: [
         "https://www.mediawiki.org/wiki/API:Tutorial",
         "https://stackoverflow.com/a/69233719/13851998"

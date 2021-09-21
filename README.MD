@@ -13,6 +13,7 @@ level and what is the better place to get such data... Still not done the vis.-p
 I have the data :P
 
 Installation and running „tests”:
+
 0. `git clone https://github.com/adamAfro/wiki-gatherer.git WGDir`
     - `cd WGDir`
     - `npm install`

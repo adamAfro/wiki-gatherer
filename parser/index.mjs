@@ -42,7 +42,7 @@ export default class Parser {
 
                 let date = claim.mainsnak?.datavalue?.value.time
                 if(!date)
-                    throw "date did not have value";
+                    return claim
 
                 if (date.slice(6,8) == "00")
                     date = date.slice(0,6) + "01" + date.slice(8);
@@ -58,7 +58,7 @@ export default class Parser {
             } break;
 
             default:
-                return claim.mainsnak?.datavalue?.value;
+                return claim;
         }
     }
 }

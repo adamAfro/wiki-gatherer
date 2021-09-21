@@ -12,13 +12,13 @@ Why? I was curious how many philosopheres were there throughout history on more 
 level and what is the better place to get such data... Still not done the vis.-part but atleast
 I have the data :P
 
-Installation and running „tests”:
+Installation and testing
 
 0. `git clone https://github.com/adamAfro/wiki-gatherer.git WGDir`
     - `cd WGDir`
     - `npm install`
-1. `node test.mjs;cd test-results/download;ls;cd ../../` (CTRL + c -> ✖)
-2. `node parser/test.mjs;cd test-results;ls;cd ../`
+1. `node test.mjs "wikipedia's category's title"`
+2. see results at http://localhost:3000 (demo made with [vis.js](https://visjs.org/) (bad for large numbers))
 
 Gathering:
 ```JS

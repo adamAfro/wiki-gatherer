@@ -10,10 +10,22 @@
             window.onload = async function() {
 
                 let container = document.getElementById('timeline');
-                let data = await fetch("lifetimes.json").then(res => res.json());
-                let items = new vis.DataSet(data);
+                let data = await fetch("parser.json").then(res => res.json());
 
-                let timeline = new vis.Timeline(container, items, {
+                let set = [];
+                for (let { title, dates } of data) {
+
+                    let item = {
+                        content: title,
+                        start: dates.birth,
+                        end: dates.death
+                    };
+
+                    if (typeof item.start == "string" && typeof item.end == "string")
+                        set.push(item);
+                }
+
+                let timeline = new vis.Timeline(container, new vis.DataSet(set), {
                     zoomMax: 157680000000000, zoomMin: 31536000,
                     width: "100%", height: "100vh"
                 });

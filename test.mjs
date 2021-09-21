@@ -2,7 +2,7 @@ import Gatherer from "./index.mjs";
 
 let gatherer = new Gatherer("https://pl.wikipedia.org/w/api.php");
 
-let members = await gatherer.gather(1810130);
+let members = await gatherer.gather("Kategoria: Polscy_filozofowie_XX_wieku");
 
 import {
     writeFile as write,
@@ -10,8 +10,7 @@ import {
     rm as remove
 } from "fs/promises";
 
-let cataloging = remove("test-results", { recursive: true }).catch(error => {})
-    .then(() => make("test-results").catch(error => {}))
+let cataloging = remove("test-results/download", { recursive: true }).catch(error => {})
     .then(() => make("test-results/download").catch(error => {}))
 
 let writing = cataloging.then(function() {

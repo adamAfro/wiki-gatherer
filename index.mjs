@@ -22,62 +22,82 @@ export default class Gatherer {
 
     get lang() { return this.url.slice("https://".length, "https://**".length) }
 
-    async gather(id) {
+    async gather(title) {
+
+        let members = await this.list(title);
+        for (let i = 0, member = members[i]; i < members.length; member = members[i]) {
+
+            let treenesness = (members[i].ns == 14);
+            if (treenesness) {
+
+                members.splice(i, 1);
+
+                let submembers = await this.list(member.title);
+                for (let submember of submembers)
+                    if(!members.some(sample => sample.title == submember.title))
+                        members.push(submember);
+
+            } else i++;
+        }
+
+        let heading = `Data (${members.length})`;
+        let underscore = '';
+        for (let char of heading)
+            underscore += "=";
+
+        console.log(heading);
+        console.log(underscore + '\n');
+
+        let dataset = [];
+        for (let i = 0; i < members.length; i++) {
+
+            let { title } = members[i];
+
+            console.log(`${i + 1}. ${title}`);
+
+            let data = await this.claim(title);
+            if (data && (data.id && data.claims))
+                dataset.push({ title, id: data.id, claims: data.claims });
+        }
+
+        return dataset;
+    }
+
+    async list(title) {
 
         return wikicall(this.url, {
 
             "action": "query",
             "list": "categorymembers",
-            "cmpageid": id,
+            "cmtitle": title,
+            "cmlimit": "max",
             "format": "json"
 
         }).then(results => {
 
             let members = [];
-            for (let { query } of results) for (let member of query.categorymembers)
-                if(!members.some(({ pageid }) => pageid == member.pageid))
+            for (let { query } of results)
+                for (let member of query.categorymembers)
                     members.push(member);
 
-            return this.subfetch(members).then(() => members);
+            return members;
         });
     }
 
-    async subfetch(members = [], i = 0) {
+    async claim(title) {
 
-        if (i < members.length) {
+        return wikicall("https://wikidata.org/w/api.php", {
 
-            let treenesness = (members[i].ns == 14);
-            if (treenesness) {
+            "action": "wbgetentities",
+            "sites": `${this.lang}wiki`,
+            "titles": title,
+            "props": "claims",
+            "format": "json"
 
-                return this.gather(members[i].pageid).then(submembers => {
+        }).then(([result]) => {
 
-                    members.splice(i, 1, ...submembers)
-
-                    return this.subfetch(members, i);
-                });
-
-            } else return wikicall("https://wikidata.org/w/api.php", {
-
-                "action": "wbgetentities",
-                "sites": `${this.lang}wiki`,
-                "titles": members[i].title,
-                "props": "claims",
-                "format": "json"
-
-            }).then(([result]) => {
-
-
-                for (let key in result.entities) {
-
-                    if (key.startsWith("Q")) {
-
-                        members[i].data = result.entities[key];
-
-                        break;
-                    }
-                }
-
-            }).then(() => this.subfetch(members, i + 1));
-        }
+            for (let key in result.entities) if (key.startsWith('Q'))
+                return result.entities[key];
+        });
     }
 }

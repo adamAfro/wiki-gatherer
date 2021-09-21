@@ -7,7 +7,7 @@ import * as Fetcher from "node-fetch";
 
 export default function fetch(url, ...rest) {
 
-    console.log(url);
+    // console.log(url);
 
-    return Fetcher.default(url, ...rest);
+    return Fetcher.default(url, ...rest).catch(error => { return error });
 }

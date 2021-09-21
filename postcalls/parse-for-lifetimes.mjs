@@ -35,8 +35,8 @@ for (let filename of list("test-results/download")) {
 
     let entity = {
         content: item.title,
-        start: item.data.claims.P569 ? totime(item.data.claims.P569[0]?.mainsnak?.datavalue?.value.time) : undefined,
-        end: item.data.claims.P570 ? totime(item.data.claims.P570[0]?.mainsnak?.datavalue?.value.time) : undefined
+        start: item.claims.P569 ? totime(item.claims.P569[0]?.mainsnak?.datavalue?.value.time) : undefined,
+        end: item.claims.P570 ? totime(item.claims.P570[0]?.mainsnak?.datavalue?.value.time) : undefined
     };
 
     if (entity.start) {

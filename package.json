@@ -1,6 +1,7 @@
 {
     "name": "wiki'gatherer",
     "author": "adamAfro",
+    "version": "1.0.0",
     "description": "Gathering articles and their claims from wikimedia websites",
     "main": "./index.mjs",
     "bin": {

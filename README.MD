@@ -1,5 +1,7 @@
 Wiki'Gatherer[.mjs](https://github.com/adamAfro/wiki-gatherer/blob/master/index.mjs)
-=================
+===================
+
+![A place for a screenshot](assets/timeline-screenshot.jpeg)
 
 Imagine a tree, an apple tree - it has branches with lesser branches with lesser branches...
 and so on. Some of them have apples on them. In order to take all the apples one needs
@@ -18,7 +20,7 @@ Installation and testing
     - `cd WGDir`
     - `npm install`
 1. `node test.mjs "wikipedia's category's title"`
-2. see results at http://localhost:3000 (demo made with [vis.js](https://visjs.org/) (bad for large numbers))
+2. see results at http://localhost:3000
 
 Gathering:
 ```JS
@@ -39,15 +41,22 @@ let data = await gatherer.gather(category.title);
 
 Parsing:
 ```JS
-import Parser from "./dir-with-lib/index.mjs";
+import Parser from "./dir-with-lib/parser/index.mjs";
 
 let targetmap = { dates: ["birth", "death"] };
 
 let parser = new Parser(targetmap);
 
-for (let item of data) {
+let dataset = [];
+for (let item of data)
+    dataset.push(parse.parse(item));
+/// dataset[i] -> { title, dates: { birth, death } }
+```
 
-    let info = parse.parse(item);
-    /// info -> { title, dates: { birth, death } }
-}
+Displaying:
+```JS
+import Timeline from "./dir-with-lib/display/index.mjs";
+
+new Timeline(document.getElementById("display"))
+    .print(Timeline.parse(dataset, "people"));
 ```

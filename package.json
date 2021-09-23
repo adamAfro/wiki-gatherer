@@ -1,6 +1,15 @@
 {
-  "dependencies": {
-    "express": "^4.17.1",
-    "node-fetch": "^3.0.0"
-  }
+    "name": "wiki'gatherer",
+    "author": "adamAfro",
+    "description": "Gathering articles and their claims from wikimedia websites",
+    "main": "./index.mjs",
+    "bin": {
+        "wiki-gather": "./run.mjs"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "jsdom": "^17.0.0",
+        "node-fetch": "^3.0.0",
+        "yargs": "^17.2.0"
+    }
 }

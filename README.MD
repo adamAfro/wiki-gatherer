@@ -13,13 +13,25 @@ ignoring untasteful branches called categories - 'cause no tasty content there.
 Why? I was curious how many philosopheres were there throughout history on more visualisation
 level and what is the better place to get such data...
 
-Installation and testing
+Installation and running
 
 0. `git clone https://github.com/adamAfro/wiki-gatherer.git WGDir`
     - `cd WGDir`
     - `npm install`
-1. `node test.mjs "wikipedia's category's title"`
-2. see results at http://localhost:3000
+
+Globally:
+1. `npm install -g`
+2. `wiki-gather --help` (**not** _gather**er**_)
+3. `wiki-gather -d wikipedia.domain -c "Category:Name" -o outputDir`
+
+Locally:
+1. `node run.mjs --help`
+2. `node run.mjs -d wikipedia.domain -c "Category:Name" -o outputDir`
+
+In output'dir one may find claims from WikiData (`/WikiData/...`), parsed `data.json` and
+`index.html` with demo-page which may be runned inside the browser without server.
+
+---------
 
 Gathering:
 ```JS

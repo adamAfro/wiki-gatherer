@@ -8,11 +8,10 @@ and so on. Some of them have apples on them. In order to take all the apples one
 to take the apples not only from the big branches but also from the small ones.
 
 That's what gatherer does. It takes all the pages from various categories on wikipedia
-igoring untasteful branches called categories - 'cause no tasty content there.
+ignoring untasteful branches called categories - 'cause no tasty content there.
 
 Why? I was curious how many philosopheres were there throughout history on more visualisation
-level and what is the better place to get such data... Still not done the vis.-part but atleast
-I have the data :P
+level and what is the better place to get such data...
 
 Installation and testing
 
@@ -49,7 +48,7 @@ let parser = new Parser(targetmap);
 
 let dataset = [];
 for (let item of data)
-    dataset.push(parse.parse(item));
+    dataset.push(parser.parse(item));
 /// dataset[i] -> { title, dates: { birth, death } }
 ```
 

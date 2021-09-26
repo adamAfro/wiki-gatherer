@@ -16,9 +16,7 @@ import wikicall from "./wikicall/index.mjs";
 
 export default class Gatherer {
 
-    constructor(url) { this.url = url }
-
-    get lang() { return this.url.slice("https://".length, "https://**".length) }
+    constructor(lang = "en") { this.lang = lang }
 
     async gather(title) {
 
@@ -63,7 +61,7 @@ export default class Gatherer {
 
     async list(title) {
 
-        return wikicall(this.url, {
+        return wikicall(`https://${this.lang}.wikipedia.org/w/api.php`, {
 
             "action": "query",
             "list": "categorymembers",

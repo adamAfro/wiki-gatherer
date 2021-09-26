@@ -26,12 +26,22 @@ Installation and running
 
 Globally:
 1. `npm install -g`
-2. `wiki-gather --help` (**not** _gather**er**_)
-3. `wiki-gather -d wikipedia.domain -c "Category:Name" -o outputDir`
+2. `wiki-gather -h`
+3. `wiki-gather -l lang -c category -d directory`
 
 Locally:
-1. `node run.mjs --help`
-2. `node run.mjs -d wikipedia.domain -c "Category:Name" -o outputDir`
+1. `node bin/run.mjs -h`
+2. `node bin/run.mjs -l lang -c category -d directory`
+
+Javascript
+```JS
+import { default as gather } from "./dir-with-lib/bin/index.mjs";
+
+if (language)
+    await gather(category, directory ? directory : category, language);
+else
+    await gather(category, directory ? directory : category);
+```
 
 In output'dir one may find claims from WikiData (`/WikiData/...`), parsed `data.json` and
 `index.html` with demo-page which may be runned inside the browser without server.
@@ -45,10 +55,9 @@ Gathering:
 ```JS
 import Gatherer from "./dir-with-lib/index.mjs";
 
-let url = "https://pl.wikipedia.org"; // any site that uses MediaWiki API
-let path = "w/api.php" // path to the api
+let language = "pl";
 
-let gatherer = new Gatherer(`${url}/${path}`);
+let gatherer = new Gatherer(language);
 
 let category = {
     title: "Kategoria: Sofiści" // for example

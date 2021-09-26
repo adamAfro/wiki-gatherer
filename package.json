@@ -5,7 +5,7 @@
     "description": "Gathering articles and their claims from wikimedia websites",
     "main": "./index.mjs",
     "bin": {
-        "wiki-gather": "./run.mjs"
+        "wiki-gather": "./bin/run.mjs"
     },
     "dependencies": {
         "express": "^4.17.1",

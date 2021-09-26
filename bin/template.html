@@ -6,71 +6,56 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <meta name="wiki-gatherer-features" content="">
-        <meta name="wiki-gatherer-display" content="main">
+        <meta name="wiki-gatherer-notes" content=".notes">
+        <meta name="wiki-gatherer-display" content=".timeline">
         <meta name="wiki-gatherer-titles" content="title,h1">
 
         <style media="screen">
 
-            body {
-
-                text-align: center;
-
-                display: flex; flex-flow: column; max-height: 100vh;
-
-                width: 100%; height: 100vh; overflow: hidden;
+            body { text-align: center;
 
                 margin:0; border:0; padding:0;
+
+            } .container { scroll-behavior: smooth;
+
+                max-width: 100%; overflow: scroll;
             }
 
-            .timeline {
+            .timerow { position: relative; min-height: 1.56em }
+            .dates {
 
-                min-width: 100%; scroll-behavior: smooth; overflow: scroll;
+                border-top: solid; background-color: white;
+
+                position: sticky; z-index: 3; bottom: 0;
             }
 
-            .timerow {
+                .timerow > .item, .timerow > .date {
 
-                position: relative; height: 1.56em;
+                    box-sizing: border-box; border-width: thin;
+                    white-space: nowrap; overflow: hidden;
 
-            } header.timerow {
-                border-bottom: solid;
-            }
+                    position: absolute;
+                    display: inline-block; height: min-content;
+                }
 
+                .timerow > .item { border-style: solid }
+                .timerow > .date { border-left-style: solid }
 
-            .timerow > .item, .timerow > .date {
-
-                position: absolute; height: 100%;
-
-                display: inline-block;
-                white-space: nowrap; overflow: hidden;
-            }
-
-            .timerow > .date { border-left: thin solid }
-
-            .timerow > .item {
-
-                cursor: help;
-
-                background-color: black; color: white; border: white solid;
-
-                width: 0; /* extend it */
-
-            } .timerow > .item:target {
-
-                background-color: white; color: black; border-color: black;
-
-                padding: 1em; width: max-content !important;
-
-                z-index: 2; cursor: default; overflow: visible;
-
-            }
         </style>
     </head>
     <body>
 
         <h1>Wiki'Gatherer (output)</h1>
-        <main id="display" class="timeline"></main>
+        <main class="container" style="border-top: solid; max-height: 32em;">
+            <div class="timeline"></div>
+        </main>
+        <nav class="notes" style="padding: 1.2em 2.2em"></nav>
 
-        <img style="width:6.8em;position:absolute;z-index:3;bottom:0;left:0" src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Wikidata_Stamp_Rec_Dark.svg" alt="Powered by WikiData">
+        <footer style="background: black; color: white; padding: 1.5em">
+            <img style="width:6.8em" src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Wikidata_Stamp_Rec_Dark.svg" alt="Powered by WikiData">
+            <br/>
+            <a href="https://github.com/adamAfro/wiki-gatherer">adamAfro 2021</a>
+        </footer>
 
     </body>
 </html>

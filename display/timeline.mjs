@@ -10,7 +10,7 @@ export default class Timeline {
 
     constructor(node) { this.node = node }
 
-    print(rows = [], scale = 0.1**12) {
+    print(rows = [], scale = 0.1**12*11) {
 
         let min = rows[rows.length - 1][0].start;
         for (let row of rows)
@@ -22,7 +22,7 @@ export default class Timeline {
 
             let subcontent = '';
             for (let { title, start, end, duration = Math.abs(start - end) } of row)
-                subcontent += `<a id="${title}" href="#${title}" class="item" style="left:${(start-min)*scale}em;width:${duration*scale}em">${title}</a>`;
+                subcontent += `<a href="#${title}" class="item" style="left:${(start-min)*scale}pt;width:${duration*scale}pt">${title}</a>`;
 
             content += `<div class="timerow">${subcontent}</div>`;
         }
@@ -33,14 +33,14 @@ export default class Timeline {
                 max = row[row.length - 1].end - min;
 
         this.node.innerHTML = content,
-        this.node.style.width = `${max*scale}em`,
+        this.node.style.width = `${max*scale}pt`,
         this.node.dataset.scale = scale;
 
         let dates = '';
         for (let year of ["-4000", "-2000", "-1000", "-0001", "0735", "1453", "2021"])
-            dates += `<i class="date" style="left:${(Date.UTC(year)-min)*scale}em">${year}</i>`;
+            dates += `<i class="date" style="left:${(Date.UTC(year)-min)*scale}pt">${year}</i>`;
 
-        this.node.insertAdjacentHTML(`afterbegin`, `<header style="width:${this.node.style.width}" class="timerow">${dates}</header>`);
+        this.node.insertAdjacentHTML(`beforeend`, `<div style="width:${this.node.style.width}" class="timerow dates">${dates}</div>`);
     }
 
     static parse(type = "people", dataset = [{ title: '', dates: { birth: '', death: '' } }], features = []) {
@@ -113,7 +113,8 @@ export default class Timeline {
         for (let row of rows)
             row.sort(({ start }, next) => (start - next.start));
 
-        console.warn(errors);
+        if (errors.length > 0)
+            console.warn("Timeline errors:", errors);
 
         return rows;
     }

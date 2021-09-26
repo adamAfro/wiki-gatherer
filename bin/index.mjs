@@ -72,7 +72,7 @@ export default async function(title, workdir = title, langdomain = undefined) {
 
     let dataset = [];
     for (let member of members)
-        dataset.push({ title: member.title, ...parser.parse(member.claims) });
+        dataset.push({ title: member.title, link: member.link, ...parser.parse(member.claims) });
 
     write(`${workdir}/data.json`, JSON.stringify(dataset, null, '\t'));
 
@@ -91,7 +91,8 @@ export default async function(title, workdir = title, langdomain = undefined) {
 
     let selectors = {
         display: document.querySelector(`meta[name="wiki-gatherer-display"]`)?.content || "body",
-        titles: document.querySelector(`meta[name="wiki-gatherer-titles"]`)?.content || "title,h1"
+        titles: document.querySelector(`meta[name="wiki-gatherer-titles"]`)?.content || "title,h1",
+        notes: document.querySelector(`meta[name="wiki-gatherer-notes"]`)?.content || undefined
     };
 
     let display = document.querySelector(selectors.display);
@@ -107,6 +108,16 @@ export default async function(title, workdir = title, langdomain = undefined) {
     }
 
     new Timeline(display).print(Timeline.parse("people", dataset, features));
+
+    let notenode = document.querySelector(selectors.notes);
+    if (notenode) {
+
+        let notes = '';
+        for (let { link, title, dates } of dataset)
+            notes += `<article id="${title}"><a target="_blank" href="${link}">${title}</a> (${new Date(dates.birth).getFullYear()} - ${dates.death ? new Date(dates.death).getFullYear() : "..."})</article>`
+
+        notenode.innerHTML = notes;
+    }
 
     write(`${workdir}/index.html`, model.serialize());
 }

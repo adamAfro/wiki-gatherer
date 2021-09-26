@@ -53,7 +53,7 @@ export default class Gatherer {
 
             let data = await this.claim(title);
             if (data && (data.id && data.claims))
-                dataset.push({ title, id: data.id, claims: data.claims });
+                dataset.push({ link: `https://${this.lang}.wikipedia.org/wiki/${title}`, title, id: data.id, claims: data.claims });
         }
 
         return dataset;

@@ -43,48 +43,69 @@ export default class Timeline {
         this.node.insertAdjacentHTML(`afterbegin`, `<header style="width:${this.node.style.width}" class="timerow">${dates}</header>`);
     }
 
-    static parse(dataset = [{ title: '', dates: { birth: '', death: '' } }], type = "people") {
+    static parse(type = "people", dataset = [{ title: '', dates: { birth: '', death: '' } }], features = []) {
 
         let rows = new Array([]), errors = [];
         switch (type) {
 
-            case "people": for (let { title, dates } of dataset) try {
+            case "people": {
 
-                let start = Date.parse(dates.birth),
-                    end = Date.parse(dates.death);
+                let featured = [];
+                if (features && features.length > 0) {
 
-                if (start > Date.UTC(1901) && !end)
-                    end = Date.now();
+                    for (let i = 0; i < dataset.length; i++) for (let j = 0; j < features.length; j++) {
 
-                if(!start || !end)
-                    throw { title, message: "invalid date(s)" };
+                        if (dataset[i].title.endsWith(features[j])) {
 
-                let r = 0;
-                while (rows[r]) {
+                            featured.push(...dataset.splice(i, 1)), features.splice(j, 1);
 
-                    let overflow = rows[r].some(sample => {
-
-                        let starts = (sample.start > start && sample.start < end) || (start > sample.start && start < sample.end),
-                            ends = (sample.end > start && sample.end < end) || (end > sample.start && end < sample.end);
-
-                        if (starts || ends)
-                            return true;
-                        else
-                            return false;
-                    });
-
-                    if (overflow)
-                        r++
-                    else
-                        break;
+                            i--; break;
+                        } else continue;
+                    }
                 }
 
-                if(!rows[r])
-                    rows[r] = [];
+                for (let { title, dates } of dataset) try {
 
-                rows[r].push({ title, start, end });
+                    let start = Date.parse(dates.birth),
+                        end = Date.parse(dates.death);
 
-            } catch(e) { errors.push(e) }; break;
+                    if (start > Date.UTC(1901) && !end)
+                        end = Date.now();
+
+                    if(!start || !end)
+                        throw { title, message: "invalid date(s)" };
+
+                    let r = 0;
+                    while (rows[r]) {
+
+                        let overflow = rows[r].some(sample => {
+
+                            let starts = (sample.start > start && sample.start < end) || (start > sample.start && start < sample.end),
+                                ends = (sample.end > start && sample.end < end) || (end > sample.start && end < sample.end);
+
+                            if (starts || ends)
+                                return true;
+                            else
+                                return false;
+                        });
+
+                        if (overflow)
+                            r++
+                        else
+                            break;
+                    }
+
+                    if(!rows[r])
+                        rows[r] = [];
+
+                    rows[r].push({ title, start, end });
+
+                } catch(e) { errors.push(e) };
+
+                if (featured.length)
+                    rows.unshift(...this.parse("people", featured).reverse());
+
+            } break;
 
             default: throw "parsing must have defined type";
         }

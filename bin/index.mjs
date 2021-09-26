@@ -89,13 +89,24 @@ export default async function(title, workdir = title, langdomain = undefined) {
 
     let document = model.window.document
 
-    for (let node of [document.head.querySelector(`title`), ...document.head.querySelectorAll(`h1`)])
-        node.innerText = title;
+    let selectors = {
+        display: document.querySelector(`meta[name="wiki-gatherer-display"]`)?.content || "body",
+        titles: document.querySelector(`meta[name="wiki-gatherer-titles"]`)?.content || "title,h1"
+    };
 
-    let display = document.body.querySelector(`#display`);
+    let display = document.querySelector(selectors.display);
 
+    for (let node of [...document.querySelectorAll(selectors.titles)])
+        node.textContent = title;
 
-    new Timeline(display).print(Timeline.parse(dataset, "people"));
+    let features = [], featuring = document.querySelector(`meta[name="wiki-gatherer-features"]`);
+    if (featuring) for (let input of featuring.content.split(",")) {
+        let feature = input.trim();
+        if (feature)
+            features.push(feature);
+    }
+
+    new Timeline(display).print(Timeline.parse("people", dataset, features));
 
     write(`${workdir}/index.html`, model.serialize());
 }

@@ -43,8 +43,17 @@ else
     await gather(category, directory ? directory : category);
 ```
 
-In output'dir one may find claims from WikiData (`/WikiData/...`), parsed `data.json` and
+In the directory one may find claims from WikiData (`/WikiData/...`), parsed `data.json` and
 `index.html` with demo-page which may be runned inside the browser without server.
+
+If the directory contains "template.html" - it will be used as template with meta tags:
+```HTML
+<meta name="wiki-gatherer-display" content="container selector">
+<meta name="wiki-gatherer-titles" content="heading/title selectors">
+
+<!-- Timeline: -->
+<meta name="wiki-gatherer-features" content="surnames to feature, ...">
+```
 
 
 

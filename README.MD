@@ -27,11 +27,11 @@ Installation and running
 Globally:
 1. `npm install -g`
 2. `wiki-gather -h`
-3. `wiki-gather -l lang -c category -d directory`
+3. `wiki-gather -l lang -t category -d directory`
 
 Locally:
 1. `node bin/run.mjs -h`
-2. `node bin/run.mjs -l lang -c category -d directory`
+2. `node bin/run.mjs -l lang -t category -d directory`
 
 Javascript
 ```JS

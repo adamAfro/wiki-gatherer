@@ -14,34 +14,34 @@ switch (args.locale()) {
 
         args.usage("Pobieranie wszystkich artykułów z danej kategorii wikipedii.org")
             .example(`wiki-gather -l pl -c "Kategoria: Egzystencjaliści" -d "Egzystencjaliści"`)
-            .option("c", { alias: "kategoria", describe: "Kategoria z artykułami", type: "string", demandOption: true })
+            .option("t", { alias: "tytuł", describe: "Tytuł kategorii z artykułami", type: "string", demandOption: true })
             .option("l", { alias: "język", describe: "Subdomena językowa wikipedii.org, np. „pl”, jeśli jej nie ma skrypt będzie szukał plików w folderze „[folder]/WikiData”", type: "string", demandOption: false })
             .option("d", { alias: "folder", describe: "Nazwa folderu z pobranymi plikami", type: "string", demandOption: false })
             .help('h').alias('h', 'pomoc')
-            .check((argv, options) => (!argv.c) ? new Error("Zabrakło wartości kategorii") : true);
+            .check((argv, options) => (!argv.t) ? new Error("Zabrakło wartości kategorii") : true);
 
         break;
 
     default:
 
-        args.usage("Downloading all articles from given category")
+        args.usage("Downloading all articles from given title")
             .example(`wiki-gather -l en -c "Category:'Ndranghetisti" -d "Ndrangheta"`)
-            .option("c", { alias: "category", describe: "Category to fetch articles from", type: "string", demandOption: true })
+            .option("t", { alias: "title", describe: "Category to fetch articles from", type: "string", demandOption: true })
             .option("l", { alias: "language", describe: "Language subdoman of wikipedia.org, for ex. „en”, if nothing given - will check for files in „[dir]/WikiData”", type: "string", demandOption: false })
             .option("d", { alias: "directory", describe: "Name of the working directory", type: "string", demandOption: false })
             .help('h').alias('h', 'help')
-            .check((argv, options) => (!argv.c) ? new Error("Expected value for category") : true);
+            .check((argv, options) => (!argv.t) ? new Error("Expected value for title") : true);
 }
 
 args = args.argv;
 
 import { default as run } from "./index.mjs";
 
-let category = args.c,
+let title = args.t,
     directory = args.d,
     language = args.l;
 
 if (language)
-    await run(category, directory ? directory : category, language);
+    await run(title, directory ? directory : title, language);
 else
-    await run(category, directory ? directory : category);
+    await run(title, directory ? directory : title);
